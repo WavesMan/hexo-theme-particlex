@@ -57,12 +57,16 @@ card:
 
 # Footer info
 footer:
-    since: 2022
+    since: 2024
     # Customize the server domain name ICP
     ICP:
-        enable: false
-        code:
-        link:
+        enable: true
+        code: 
+        link: 
+    PSR: 
+        enable: true
+        code: 
+        link: 
 
 # Polyfill
 # https://polyfill.io
@@ -130,6 +134,7 @@ waline:
     locale: # Locale: https://waline.js.org/guide/client/i18n.html#locale-option
     commentCount: true # If false, comment count will only be displayed in post page, not in home page
     pageview: false # Pageviews count, Note: You should not enable both `waline.pageview` and `leancloud_visitors`
+    dark: auto # 自动切换深色模式
     emoji: # Custom emoji
         - https://unpkg.com/@waline/emojis@1.2.0/weibo
         - https://unpkg.com/@waline/emojis@1.2.0/alus
