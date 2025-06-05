@@ -12,15 +12,24 @@
             Based on the <a href="https://hexo.io">Hexo Engine</a> &amp;
             <a href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
         </div>
-        <% if (theme.footer.ICP.enable) { %>
+        
         <div>
-            备案号：
+        <% if (theme.footer.ICP.enable) { %>
             <% if (theme.footer.ICP.link) { %>
             <a href="<%- url_for(theme.footer.ICP.link) %>"><%= theme.footer.ICP.code %></a>
             <% } else { %>
             <%= theme.footer.ICP.code %>
             <% } %>
-        </div>
         <% } %>
+        &nbsp;
+        <% if (theme.footer.PSR.enable) { %>
+            <% if (theme.footer.PSR.link) { %>
+            <a href="<%- url_for(theme.footer.PSR.link) %>"><%= theme.footer.PSR.code %></a>
+            <% } else { %>
+            <%= theme.footer.PSR.code %>
+            <% } %>
+        <% } %>
+        </div>
+        
     </div>
 </footer>
