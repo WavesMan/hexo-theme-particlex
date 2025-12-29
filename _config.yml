@@ -2,14 +2,23 @@
 # https://github.com/theme-particlex/hexo-theme-particlex
 
 # Avatar image
-avatar: /images/avatar.jpg
+avatar: https://cloud.waveyo.cn/Services/websites/blog/images/avatar.jpg
 
 # Home page background image
 background:
-    - /images/background.jpg
-
+    - https://cloud.waveyo.cn/Services/websites/blog/images/background.png
+    - https://cloud.waveyo.cn/Services/images/background/background1.jpg
+    - https://cloud.waveyo.cn/Services/images/background/background2.jpg
+    - https://cloud.waveyo.cn/Services/images/background/background3.jpg
+    - https://cloud.waveyo.cn/Services/images/background/background4.jpg
+    - https://cloud.waveyo.cn/Services/images/background/background5.jpg
+    - https://cloud.waveyo.cn/Services/images/background/background6.jpg
+    - https://cloud.waveyo.cn/Services/images/background/background7.jpg
+    - https://cloud.waveyo.cn/Services/images/background/background8.jpg
+    - https://cloud.waveyo.cn/Services/images/background/background9.jpg
+    - https://cloud.waveyo.cn/Services/images/background/background10.jpg
 # Loading image
-loading: /images/loading.gif
+loading: https://cloud.waveyo.cn/Services/websites/blog/images/loading.gif
 
 # Optional colors for category and tag
 colors:
@@ -44,16 +53,52 @@ menu:
         name: tags
         theme: solid
         link: /tags
+    友情链接:
+        enable: true
+        name: link
+        theme: solid
+        link: /links
+    RSS:
+        name: rss
+        theme: solid
+        link: /rss.xml
+    Atom:
+        name: atom
+        theme: solid
+        link: /atom.xml
+
+links:
+  - name: "离子的杂货铺"
+    url: "https://blog.loveak.top"
+    Author:
+    desc: "Author：Plasmon222"
+  - name: "玺朽导航"
+    url: "https://lonelymeko.top/"
+    Author: 
+    desc: "Author：玺朽"
+
 
 # Side info card
 card:
     enable: true
     description: |
-        Description
-        ...
-    iconLinks:
-    friendLinks:
-        Argvchs: https://argvchs.github.io
+    
+    iconLinks: 
+        Home:
+            name: house
+            theme: solid
+            link: http://home.waveyo.cn
+        GitHub:
+            name: github
+            theme: brands
+            link: https://github.com/WavesMan
+        BiliBili:
+            name: bilibili
+            theme: brands
+            link: https://space.bilibili.com/478191001
+        
+    friendLinks: 
+        #GitHub: https://github.com/WavesMan 
 
 # Footer info
 footer:
@@ -61,12 +106,13 @@ footer:
     # Customize the server domain name ICP
     ICP:
         enable: true
-        code: 
-        link: 
+        code: 皖ICP备2025078205号
+        link: https://beian.miit.gov.cn/
     PSR: 
         enable: true
-        code: 
-        link: 
+        code: 皖公网安备34040002000514号
+        link: https://beian.mps.gov.cn/#/query/webSearch?code=
+
 
 # Polyfill
 # https://polyfill.io
@@ -79,7 +125,13 @@ polyfill:
 # https://highlightjs.org
 highlight:
     enable: true
-    style: github
+    style: github-dark-dimmed-min
+
+# Mermaid
+# https://mermaid.js.org
+mermaid:
+    enable: true
+    theme: default
 
 # KaTeX math rendering
 math:
@@ -129,29 +181,34 @@ gitalk:
 # Waline
 # https://github.com/walinejs/waline
 waline:
-    enable: false
-    serverURL: # Waline server address url, you should set this to your own link
+    enable: true
+    serverURL: https://commentaries.waveyo.cn/
+        # Waline 服务器地址网址，您应将其设置为自己的链接
     locale: # Locale: https://waline.js.org/guide/client/i18n.html#locale-option
-    commentCount: true # If false, comment count will only be displayed in post page, not in home page
-    pageview: false # Pageviews count, Note: You should not enable both `waline.pageview` and `leancloud_visitors`
+    commentCount: true # 如果为false，评论计数将只显示在文章页面，而不显示在主页上
+    pageview: true 
+        # 页面浏览量计数，注意：不能同时启用 `waline.pageview` 和 `leancloud_visitors` 两项功能。
     dark: auto # 自动切换深色模式
-    emoji: # Custom emoji
+    emoji: # 自定义 emoji
         - https://unpkg.com/@waline/emojis@1.2.0/weibo
         - https://unpkg.com/@waline/emojis@1.2.0/alus
         - https://unpkg.com/@waline/emojis@1.2.0/bilibili
         - https://unpkg.com/@waline/emojis@1.2.0/qq
         - https://unpkg.com/@waline/emojis@1.2.0/tieba
         - https://unpkg.com/@waline/emojis@1.2.0/tw-emoji
-    meta: # Comment information, valid meta are nick, mail and link
+    meta: # 评论信息，有效的元信息包括昵称、邮件和链接
         - nick
         - mail
         - link
-    requiredMeta: # Set required meta field, e.g.: [nick] | [nick, mail]
+    requiredMeta: # 设置所需的元字段，例如 [nick] | [nick, mail]
         - nick
-    lang: # Language, available values: en-US, zh-CN, zh-TW, pt-BR, ru-RU, jp-JP
-    wordLimit: 0 # Word limit, no limit when setting to 0
-    login: enable # Whether enable login, can choose from 'enable', 'disable' and 'force'
-    pageSize: 10 # Comment per page
+        - mail
+        - link
+    lang: zh-CN
+        # Language, available values: en-US, zh-CN, zh-TW, pt-BR, ru-RU, jp-JP
+    wordLimit: 0 # 字数限制，设置为 0 时无限制
+    login: enable # 是否启用登录，可从 'enable', 'disable' 和 'force' 选择
+    pageSize: 10 # 每页评论
 
 # Twikoo
 # https://github.com/imaegoo/twikoo
@@ -161,3 +218,6 @@ twikoo:
     region:
     path: location.pathname
     lang:
+
+description: |
+    Normal _Italic_ **Strong**

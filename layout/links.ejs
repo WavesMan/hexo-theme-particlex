@@ -1,0 +1,157 @@
+<div id="archives">
+  <div class="links-container">
+    <h2 class="links-title">
+      <i class="fa fa-link" aria-hidden="true"></i>
+      友情链接
+    </h2>
+
+    <div class="links-grid-dual">
+      <% theme.links.forEach((link, index) => { %>
+        <div class="link-card-dual">
+          <!-- 上半部分：链接信息 -->
+          <div class="link-header">
+            <h3 class="link-name">
+              <a href="<%= link.url %>" target="_blank" rel="noopener noreferrer">
+                <%= link.name %>
+              </a>
+            </h3>
+            <% if (link.desc) { %>
+              <p class="link-desc"><%= link.desc %></p>
+            <% } %>
+          </div>
+
+          <!-- 下半部分：iframe预览 -->
+          <div class="link-preview-container" 
+               data-preview-id="preview-<%= index %>">
+            <iframe 
+              src="<%= link.url %>" 
+              class="link-preview"
+              title="<%= link.name %>移动版预览"
+              scrolling="no"
+              frameborder="0"
+              loading="lazy"
+              sandbox="allow-scripts allow-same-origin"
+            ></iframe>
+            
+            <!-- 遮罩层（用于禁用交互） -->
+            <div class="preview-overlay"></div>
+            
+            <!-- 操作提示 -->
+            <div class="preview-tips">
+              <span>滚轮缩放 • 拖拽查看</span>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+
+  <!-- 交互控制脚本 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 移动端UA注入函数
+      const setMobileView = (iframe) => {
+        try {
+          const doc = iframe.contentDocument || iframe.contentWindow.document;
+          
+          // 创建并注入meta标签
+          const meta = doc.createElement('meta');
+          meta.name = 'viewport';
+          meta.content = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no';
+          doc.head.appendChild(meta);
+          
+          // 禁用交互的样式
+          const style = doc.createElement('style');
+          style.textContent = `
+            body { 
+              overflow-x: hidden !important;
+              touch-action: pan-y !important;
+              -webkit-overflow-scrolling: touch !important;
+            }
+            a, button, input, [onclick] {
+              pointer-events: none !important;
+            }
+          `;
+          doc.head.appendChild(style);
+        } catch(e) {
+          console.log('跨域限制，部分功能不可用');
+        }
+      };
+
+      // 初始化所有预览容器
+      document.querySelectorAll('.link-preview-container').forEach(container => {
+        const iframe = container.querySelector('iframe');
+        let scale = 1;
+        let isDragging = false;
+        let startX, startY, translateX = 0, translateY = 0;
+
+        // 禁用右键菜单
+        container.addEventListener('contextmenu', e => e.preventDefault());
+
+        // 鼠标滚轮缩放（中心缩放）
+        container.addEventListener('wheel', function(e) {
+          e.preventDefault();
+          const delta = -e.deltaY * 0.005;
+          const prevScale = scale;
+          scale = Math.min(Math.max(0.5, scale + delta), 2);
+          
+          // 计算中心点缩放偏移
+          const rect = container.getBoundingClientRect();
+          const offsetX = e.clientX - rect.left;
+          const offsetY = e.clientY - rect.top;
+          
+          translateX += (offsetX - rect.width/2) * (1/prevScale - 1/scale);
+          translateY += (offsetY - rect.height/2) * (1/prevScale - 1/scale);
+          
+          applyTransform();
+        }, { passive: false });
+
+        // 鼠标拖拽
+        container.addEventListener('mousedown', function(e) {
+          if (e.button === 0) { // 左键
+            isDragging = true;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+            container.style.cursor = 'grabbing';
+          }
+        });
+
+        document.addEventListener('mousemove', function(e) {
+          if (!isDragging) return;
+          
+          translateX = e.clientX - startX;
+          translateY = e.clientY - startY;
+          
+          applyTransform();
+        });
+
+        document.addEventListener('mouseup', () => {
+          isDragging = false;
+          container.style.cursor = 'grab';
+        });
+
+        // 应用变换
+        function applyTransform() {
+          iframe.style.transform = `
+            scale(${scale})
+            translate(${translateX}px, ${translateY}px)
+          `;
+        }
+
+        // iframe加载后处理
+        iframe.onload = function() {
+          // 尝试设置移动端UA（受跨域限制）
+          try {
+            Object.defineProperty(iframe.contentWindow.navigator, 'userAgent', {
+              value: 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1',
+              configurable: false,
+              writable: false
+            });
+          } catch(e) {}
+          
+          setMobileView(iframe);
+        };
+      });
+    });
+  </script>
+</div>

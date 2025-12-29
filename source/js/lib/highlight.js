@@ -14,7 +14,9 @@ mixins.highlight = {
             let codes = document.querySelectorAll("pre");
             for (let i of codes) {
                 let code = i.textContent;
-                let language = [...i.classList, ...i.firstChild.classList][0] || "plaintext";
+                let classes = [...i.classList, ...i.firstChild.classList];
+                let language = classes[0] || "plaintext";
+                if (classes.includes("mermaid") || classes.includes("language-mermaid")) continue;
                 let highlighted;
                 try {
                     highlighted = hljs.highlight(code, { language }).value;

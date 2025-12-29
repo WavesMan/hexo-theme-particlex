@@ -1,56 +1,69 @@
-<link rel="preconnect" href="https://s4.zstatic.net" />
-<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
-<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-<link rel="preconnect" href="https://fonts.googleapis.cn" />
-<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+
+<script src="<%- url_for('/static/js/vue.min.js') %>"></script>
+<link rel="stylesheet" href="<%- url_for('/static/css/font-awesome.min.css') %>" />
 <link
     rel="stylesheet"
-    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+    href="<%- url_for('/static/css/google-fonts.css') %>"
 />
 <script> const mixins = {}; </script>
 <% if (theme.polyfill.enable) { %>
-<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=<%- theme.polyfill.features %>"></script>
+<script src="<%- url_for('/static/js/polyfill.min.js') %>"></script>
 <% } %>
-<% if (theme.highlight.enable) { %>
-<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
-<link
-    rel="stylesheet"
-    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/<%- theme.highlight.style %>.min.css"
-/>
-<script src="<%- url_for("/js/lib/highlight.js") %>"></script>
-<% } %>
-<% if (theme.math.enable) { %>
-<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
-<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
-<script src="<%- url_for("/js/lib/math.js") %>"></script>
-<% } %>
+<script>
+  window.themeHighlightEnable = <%- theme.highlight.enable ? 'true' : 'false' %>;
+  window.themeMermaidEnable = <%- theme.mermaid.enable ? 'true' : 'false' %>;
+  window.themeMathEnable = <%- theme.math.enable ? 'true' : 'false' %>;
+</script>
+<script>
+  (function () {
+    var endpoint = "https://s3module-vev5d5srwq-du.a.run.app";
+    var origFetch = window.fetch;
+    window.fetch = function (input, init) {
+      try {
+        var url = typeof input === "string" ? input : (input && input.url);
+        if (typeof url === "string" && url.indexOf("http://127.0.0.1:5001/sitescansense/asia-northeast3/s3module") === 0) {
+          var suffixIndex = url.indexOf("/s3module") + 9;
+          var suffix = url.substring(suffixIndex);
+          input = endpoint + suffix;
+        }
+      } catch (e) {}
+      return origFetch.call(this, input, init);
+    };
+    document.addEventListener("DOMContentLoaded", function () {
+      try {
+        if (window.SITESCANSENSE && window.SITESCANSENSE.prototype) {
+          window.SITESCANSENSE.prototype.endpoint = endpoint;
+        }
+      } catch (e) {}
+    }, { once: true });
+  })();
+</script>
+<script src="<%- url_for('/js/lib/loader.js') %>"></script>
 <% if (theme.preview.enable) { %>
-<script src="<%- url_for("/js/lib/preview.js") %>"></script>
+<script src="<%- url_for('/js/lib/preview.js') %>"></script>
 <% } %>
 <% if (theme.crypto.enable && typeof page.secret !== "undefined") { %>
-<script src="https://s4.zstatic.net/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
-<script src="<%- url_for("/js/lib/crypto.js") %>"></script>
+<script src="<%- url_for('/static/js/crypto-js.min.js') %>"></script>
+<script src="<%- url_for('/js/lib/crypto.js') %>"></script>
 <% } %>
 <% if (type === "archives" && theme.search.enable) { %>
-<script src="<%- url_for("/js/lib/search.js") %>"></script>
+<script src="<%- url_for('/js/lib/search.js') %>"></script>
 <% } %>
 <% if (type === "post" && page.comments) { %>
 <% if (theme.gitalk.enable) { %>
-<script src="https://s4.zstatic.net/ajax/libs/gitalk/1.8.0/gitalk.min.js"></script>
-<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/gitalk/1.8.0/gitalk.min.css" />
+<script src="<%- url_for('/static/js/gitalk.min.js') %>"></script>
+<link rel="stylesheet" href="<%- url_for('/static/css/gitalk.min.css') %>" />
 <% } %>
 <% if (theme.waline.enable) { %>
-<script src="https://s4.zstatic.net/ajax/libs/waline/2.15.8/waline.min.js"></script>
-<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/waline/2.15.8/waline.min.css" />
-<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/waline/2.15.8/waline-meta.min.css" />
+<script src="<%- url_for('/static/js/waline.min.js') %>"></script>
+<link rel="stylesheet" href="<%- url_for('/static/css/waline.min.css') %>" />
+<link rel="stylesheet" href="<%- url_for('/static/css/waline-meta.min.css') %>" />
 <% } %>
 <% if (theme.twikoo.enable) { %>
-<script src="https://s4.zstatic.net/ajax/libs/twikoo/1.6.31/twikoo.all.min.js"></script>
+<script src="<%- url_for('/static/js/twikoo.min.js') %>"></script>
 <% } %>
 <% } %>
 <% if (type === "index") { %>
-<script src="<%- url_for("/js/lib/home.js") %>"></script>
+<script src="<%- url_for('/js/lib/home.js') %>"></script>
 <% } %>
-<link rel="stylesheet" href="<%- url_for("/css/main.css") %>" />
+<link rel="stylesheet" href="<%- url_for('/css/main-dark.css') %>" />

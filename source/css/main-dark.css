@@ -988,3 +988,155 @@ ol li {
         padding-left: 20px;
     }
 }
+
+
+/* new */
+/* ===== 核心布局 ===== */
+#archives .links-container {
+  margin: 0 auto;
+  max-width: 900px;
+  padding: 20px 0;
+  text-align: center;
+}
+
+/* ===== 双排网格系统 ===== */
+#archives .links-grid-dual {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 25px;
+  margin: 0 auto;
+  justify-items: center;
+}
+
+/* ===== 卡片容器 ===== */
+#archives .link-card-dual {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #685e5e80;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== 卡片上半部 ===== */
+#archives .link-header {
+  padding: 15px;
+  border-bottom: 1px solid #685e5e80;
+  text-align: left;
+}
+
+#archives .link-name {
+  margin: 0 0 5px 0;
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+#archives .link-name a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#archives .link-desc {
+  margin: 0;
+  color: #ffffffb0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* ===== 预览容器 ===== */
+.link-preview-wrapper {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  background: #252525;
+  cursor: grab;
+}
+
+.link-preview-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: center center;
+  will-change: transform;
+}
+.link-preview {
+  width: 100%;
+  height: 100%;
+  border: none;
+  pointer-events: none;
+}
+
+#archives .link-preview-container {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  background: #252525;
+  cursor: grab;
+}
+
+#archives .link-preview {
+  width: 100%;
+  height: 100%;
+  border: none;
+  transform-origin: center center;
+  transition: transform 0.1s ease-out;
+}
+
+/* ===== 遮罩层（禁用交互） ===== */
+#archives .preview-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  pointer-events: auto;
+}
+
+/* ===== 操作提示 ===== */
+#archives .preview-tips {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.8rem;
+  color: white;
+  background: rgba(0,0,0,0.5);
+  padding: 3px 0;
+  z-index: 3;
+}
+
+/* ===== 交互状态 ===== */
+#archives .link-preview-container.grabbing {
+  cursor: grabbing;
+}
+
+/* ===== 响应式设计 ===== */
+@media (max-width: 900px) {
+  #archives .links-grid-dual {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  #archives .links-grid-dual {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+  }
+  
+  #archives .link-preview-container {
+    height: 200px;
+  }
+  
+  #archives .preview-tips {
+    display: none;
+  }
+}

@@ -5,6 +5,7 @@
     if (is_category() || page.type === "categories") type = "categories";
     if (is_tag() || page.type === "tags") type = "tags";
     if (is_archive()) type = "archives";
+    if (page.type === "links") type = "links";
     let title = page.title + " | " + config.title;
     if (is_home()) title = config.title;
     if (is_post() || is_page()) title = page.title + " | " + config.title;
@@ -25,6 +26,12 @@
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     />
     <link rel="icon" href="<%- url_for(theme.avatar) %>" />
+    <!-- 鼠标点击特效 -->
+    <canvas
+        id="fireworks"
+        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas>
+    <script src="<%- url_for('/static/js/anime.min.js') %>"></script>
+    <script src="/js/fireworks.min.js"></script>
     <%- partial("import", { type }) %>
 </head>
 <body>
@@ -48,10 +55,14 @@
             <div id="preview" ref="preview" v-show="previewShow">
                 <img id="preview-content" ref="previewContent" />
             </div>
+            <div class="footer-links">
+                <a href="https://beian.mps.gov.cn/#/query/webSearch?code=43010402002021" target="_blank">皖公网安备34030002001158号</a>
+                <a href="https://beian.miit.gov.cn" target="_blank">湘ICP备2024088379号-1</a>
+            </div>
         </transition>
         <% } %>
     </div>
-    <script src="<%- url_for("/js/main.js") %>"></script>
+    <script src="<%- url_for('/js/main.js') %>"></script>
     <% if (type === "post" && page.comments) { %>
     <%- partial("comment") %>
     <% } %>

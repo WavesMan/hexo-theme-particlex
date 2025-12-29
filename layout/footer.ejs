@@ -10,7 +10,7 @@
         </div>
         <div>
             Based on the <a href="https://hexo.io">Hexo Engine</a> &amp;
-            <a href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+            <a href="https://github.com/WavesMan/hexo-theme-particlex">ParticleX Theme Waves_Man定制版</a>
         </div>
         
         <div>
@@ -33,3 +33,16 @@
         
     </div>
 </footer>
+
+<% if (page.type === 'links') { %>
+<script src="<%- url_for('/static/js/iframeResizer.min.js') %>"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    iframeResize({
+      log: false,
+      checkOrigin: false,
+      heightCalculationMethod: 'bodyScroll'
+    }, '.link-preview');
+  });
+</script>
+<% } %>
